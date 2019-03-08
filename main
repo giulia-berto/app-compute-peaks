@@ -23,4 +23,4 @@ fi
 
 python compute_peaks.py -t1 $t1 -dwi dwi.nii.gz -bvals dwi.bvals -bvecs dwi.bvecs -csd_type $csd_type -out_dir output
 
-mv output/peaks.nii.gz ./mask.nii.gz
+cp output/peaks.nii.gz ./mask.nii.gz
