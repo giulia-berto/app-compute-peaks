@@ -21,6 +21,6 @@ if [ $t1 != "null" ]; then
 	ln -sf $t1 T1w_acpc_dc_restore_brain.nii.gz
 fi
 
-python compute_peaks.py -t1 $t1 -dwi dwi.nii.gz -bvals dwi.bvals -bvecs dwi.bvecs -csd_type $csd_type -out_dir output
+python compute_peaks.py -t1 $t1 -dwi dwi.nii.gz -bvals dwi.bvals -bvecs dwi.bvecs -csd_type $csd_type -out_dir .
 
-cp output/peaks.nii.gz ./mask.nii.gz
+cp peaks.nii.gz output/peaks.nii.gz
