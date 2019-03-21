@@ -26,8 +26,10 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     if args.brain_mask != 'null':
+	print("Using provided brain mask.")
 	brain_mask = args.brain_mask
     else:	
+	print("Computing brain mask from T1 using BET.")
     	brain_mask = create_brain_mask(args.t1, args.out_dir)
 
     create_fods(args.dwi, args.out_dir, args.bvals, args.bvecs, brain_mask, args.csd_type, nr_cpus=-1)
