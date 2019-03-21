@@ -19,10 +19,15 @@ if __name__ == '__main__':
 	                    help='bvecs')  
     parser.add_argument('-csd_type', nargs='?', const=1, default='',
 	                    help='available options: csd_msmt_5tt | csd_msmt | csd')  
+    parser.add_argument('-brain_mask', nargs='?', const=1, default='',
+	                    help='The brain mask')   
     parser.add_argument('-out_dir', nargs='?', const=1, default='',
-	                    help='The output directory')                      
+	                    help='The output directory') 	
     args = parser.parse_args()
 
-    brain_mask = create_brain_mask(args.t1, args.out_dir)
+    if args.brain_mask != 'null':
+	brain_mask = args.brain_mask
+    else:	
+    	brain_mask = create_brain_mask(args.t1, args.out_dir)
 
     create_fods(args.dwi, args.out_dir, args.bvals, args.bvecs, brain_mask, args.csd_type, nr_cpus=-1)
