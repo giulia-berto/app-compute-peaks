@@ -11,16 +11,14 @@ module load mrtrix/3.0
 
 t1=`jq -r '.t1' config.json`
 csd_type=`jq -r '.csd' config.json`
+brain_mask=`jq -r '.brain_mask' config.json`
 
+mkdir -p output
+ln -sf $t1 ./T1w_acpc_dc_restore_brain.nii.gz
 ln -sf $(jq -r .dwi config.json) ./dwi.nii.gz
 ln -sf $(jq -r .bvals config.json) ./dwi.bvals
 ln -sf $(jq -r .bvecs config.json) ./dwi.bvecs
 
-if [ $t1 != "null" ]; then
-	mkdir -p output
-	ln -sf $t1 T1w_acpc_dc_restore_brain.nii.gz
-fi
-
-python compute_peaks.py -t1 $t1 -dwi dwi.nii.gz -bvals dwi.bvals -bvecs dwi.bvecs -csd_type $csd_type -out_dir .
+python compute_peaks.py -t1 $t1 -dwi dwi.nii.gz -bvals dwi.bvals -bvecs dwi.bvecs -csd_type $csd_type -brain_mask $brain_mask -out_dir .
 
 cp peaks.nii.gz output/peaks.nii.gz
