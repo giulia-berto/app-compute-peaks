@@ -62,5 +62,3 @@ The main output of this App is a file called `peaks.nii.gz`, which is a 4D nifti
 
 ### Dependencies
 This App only requires [singularity](https://sylabs.io/singularity/) to run. 
-
-#### MIT Copyright (c) 2020 Bruno Kessler Foundation (FBK)
