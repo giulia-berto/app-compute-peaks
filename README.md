@@ -31,7 +31,7 @@ We kindly ask that you cite the following articles when publishing papers and co
 You can submit this App online at https://doi.org/10.25663/brainlife.app.172 via the “Execute” tab.
 
 Inputs: \
-Manddatory inputs are (i) the dwi data (multi-shell and not nomalized) and (ii) the T1 anatomical image. Optionally, you can provide also the brain mask (if not provided, it will be computed using the BET command from FSL).
+Mandatory inputs are (i) the dwi data (multi-shell and not nomalized) and (ii) the T1 anatomical image. Optionally, you can provide also the brain mask (if not provided, it will be computed using the BET command from FSL).
 
 Output: \
 The CSD peaks.
