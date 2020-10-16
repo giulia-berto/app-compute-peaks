@@ -1,19 +1,11 @@
 [![Abcdspec-compliant](https://img.shields.io/badge/ABCD_Spec-v1.1-green.svg)](https://github.com/brain-life/abcd-spec)
 [![Run on Brainlife.io](https://img.shields.io/badge/Brainlife-bl.app.172-blue.svg)](https://doi.org/10.25663/brainlife.app.172)
 
-# app-compute-dsc
-This App was designed to compute the degree of overlap between two bundle masks using the Dice Similarity Coefficient (DSC) score (Dice et al., 1945). The DSC is a standard score to evaluate the result of bundle segmentation, being the two bundle masks (i) the estimated mask and (ii) the ground truth mask (see for example Garyfallidis et al., 2017, Wasserthal et al., 2018, Bertò et al., 2020).  
-Given two bundles b̂ and b, the DSC is proportional to the number of common voxels over the total number of voxels, as follows:
-
-<img src="https://latex.codecogs.com/gif.latex?DSC=2\cdot(|v(\hat{b})\cap&space;v(b)|)/(|v(\hat{b})|&plus;|v(b)|)" title="DSC=2\cdot(|v(\hat{b})\cap v(b)|)/(|v(\hat{b})|+|v(b)|)" />
-
-where |v()| is the number of voxels of the bundle mask. The DSC ranges from 0 to 1 and the closer the score is to 1, the more the two bundles are similar.
+# app-extract-peaks
+This App extracts the peaks of a spherical harmonic function at each voxel using the MRtrix command `sh2peaks`. This code is part of the TractSeg package developed by (Wasserthal et al., 2018), under Apache-2.0 License: https://github.com/MIC-DKFZ/TractSeg.
 
 ### Authors
 - [Giulia Bertò](giulia.berto.4@gmail.com)
-
-### Contributors
-- [Emanuele Olivetti](olivetti@fbk.eu)
 
 ### Funding Acknowledgement
 brainlife.io is publicly funded and for the sustainability of the project it is helpful to Acknowledge the use of the platform. We kindly ask that you acknowledge the funding below in your publications and code reusing this code.
@@ -27,25 +19,22 @@ brainlife.io is publicly funded and for the sustainability of the project it is 
 ### Citations
 We kindly ask that you cite the following articles when publishing papers and code using this code. 
 
-1. Dice, L. R., 1945. Measures of the amount of ecologic association between species. Ecology 26 (3), 297–302. [https://www.jstor.org/stable/1932409](https://www.jstor.org/stable/1932409)
+* Tournier, J.‐D., Calamante, F. and Connelly, A. (2012), MRtrix: Diffusion tractography in crossing fiber regions. Int. J. Imaging Syst. Technol., 22: 53-66. https://doi.org/10.1002/ima.22005
 
-2. Avesani, P., McPherson, B., Hayashi, S. et al. The open diffusion data derivatives, brain data upcycling via integrated publishing of derivatives and reproducible open cloud services. Sci Data 6, 69 (2019). [https://doi.org/10.1038/s41597-019-0073-y](https://doi.org/10.1038/s41597-019-0073-y)
+* [TractSeg - Fast and accurate white matter tract segmentation](https://doi.org/10.1016/j.neuroimage.2018.07.070) ([free arxiv version](https://arxiv.org/abs/1805.07103))
+[NeuroImage 2018]
+
+* Avesani, P., McPherson, B., Hayashi, S. et al. The open diffusion data derivatives, brain data upcycling via integrated publishing of derivatives and reproducible open cloud services. Sci Data 6, 69 (2019). [https://doi.org/10.1038/s41597-019-0073-y](https://doi.org/10.1038/s41597-019-0073-y) 
 
 ### Running the App
 ### On [Brainlife.io](http://brainlife.io/) 
-You can submit this App online at https://doi.org/10.25663/brainlife.app.212 via the “Execute” tab.
+You can submit this App online at https://doi.org/10.25663/brainlife.app.172 via the “Execute” tab.
 
 Inputs: \
-The two inputs are (i) a collection of estimated masks and (ii) a collection of ground truth masks. If you have bundles in WMC format, you can convert them in the correct datatype by using this App: https://doi.org/10.25663/brainlife.app.142. WARNING: be sure that the two collections contain the exact same bundles, and that are in the same anatomical space.
+Manddatory inputs are (i) the dwi data (multi-shell and not nomalized) and (ii) the T1 anatomical image. Optionally, you can provide also the brain mask (if not provided, it will be computed using the BET command from FSL).
 
 Output: \
-Along with the DSC score, other 5 common scores are returned, specifically: 
-* [Dice Similarity Coefficient](https://en.wikipedia.org/wiki/S%C3%B8rensen%E2%80%93Dice_coefficient) (DSC) 
-* [Jaccard index](https://en.wikipedia.org/wiki/Jaccard_index) (J) 
-* [sensitivity](https://en.wikipedia.org/wiki/Sensitivity_and_specificity) (sens)
-* [True Positives](https://en.wikipedia.org/wiki/False_positives_and_false_negatives) (TP) 
-* [False Positives](https://en.wikipedia.org/wiki/False_positives_and_false_negatives) (FP)
-* [False Negatives](https://en.wikipedia.org/wiki/False_positives_and_false_negatives) (FN)
+The CSD peaks.
 
 ### Running Locally (on your machine)
 
@@ -54,8 +43,12 @@ Along with the DSC score, other 5 common scores are returned, specifically:
 
 ```json
 {
-        "seg_est": "./input/estimated_tracts/masks",
-	"seg_true": "./input/true_tracts/masks"
+        "dwi": "./input/dwi/dwi.nii.gz",
+	"bvecs": "./input/bvecs/dwi.bvecs",
+	"bvals": "./input/bvals/dwi.bvals",
+	"t1": "./input/t1.nii.gz",
+	"mask": "./input/mask.nii.gz",
+	"csd": "csd_msmt_5tt"
 }
 ```
 
@@ -66,7 +59,7 @@ Along with the DSC score, other 5 common scores are returned, specifically:
 ```
 
 ### Output
-The main output of this App is a file called `output_FiberStats.csv`, in which on the columns there are the different scores, and on the rows the different bundles of the collections.
+The main output of this App is a file called `peaks.nii.gz`, which is a 4D nifti image containing the peaks of a spherical harmonic function at each voxel (from sh2peaks).
 
 ### Dependencies
 This App only requires [singularity](https://sylabs.io/singularity/) to run. 
