@@ -14,8 +14,7 @@ ln -sf $(jq -r .dwi config.json) ./dwi.nii.gz
 ln -sf $(jq -r .bvals config.json) ./dwi.bvals
 ln -sf $(jq -r .bvecs config.json) ./dwi.bvecs
 
-singularity exec -e docker://brainlife/tractseg:1.7.1 \
-                    python compute_peaks.py \
+singularity exec -e docker://giuliaberto/classifyber:1.2 python compute_peaks.py \
                     -t1 $t1 -dwi dwi.nii.gz -bvals dwi.bvals -bvecs dwi.bvecs \
                     -csd_type $csd_type -brain_mask $brain_mask -out_dir .
 
